@@ -10,6 +10,9 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+// ✅ Debug: Log MongoDB Connection String
+console.log("🔍 Checking MONGO_URI:", process.env.MONGO_URI);
+
 // ✅ MongoDB Connection
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
@@ -30,6 +33,11 @@ const Member = mongoose.model("Member", MemberSchema);
 
 // ✅ Generate Unique 5-Digit Alphanumeric ID
 const generateMemberID = () => Math.random().toString(36).substr(2, 5).toUpperCase();
+
+// ✅ Root Route (Fixes "Cannot GET /" error)
+app.get("/", (req, res) => {
+  res.send("🚀 Membership Backend is Running!");
+});
 
 // ✅ Signup Route
 app.post("/signup", async (req, res) => {
